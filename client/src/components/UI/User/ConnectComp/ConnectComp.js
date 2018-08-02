@@ -6,7 +6,7 @@ import FilterBar from "./FilterBar/FilterBar";
 const ConnectComp = ({ users, pendingConnections, requestConnection, user, getUsers }) => {
   /* Renders the list of potential connections */
   // console.log("ConnectComp, pendingConnections", pendingConnections);
-
+if(pendingConnections){
   const loggedInUserId = user._id;
   const { acceptable, pending } = pendingConnections;
 
@@ -112,6 +112,7 @@ const ConnectComp = ({ users, pendingConnections, requestConnection, user, getUs
       <ul>{connectionList}</ul>
     </div>
   );
+}
 };
 
 export default ConnectComp;
