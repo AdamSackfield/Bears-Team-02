@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -7,6 +8,7 @@ const passport = require('passport');
 const cookieSession = require('cookie-session');
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require('path');
 
 const indexRoutes = require('./routes/index');
 const founderRoutes = require('./routes/founderRoute');
@@ -14,20 +16,24 @@ const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
+const dev = app.get('env') !== 'production';
+
+if(!dev) {
+	app.disable('x-powered-by')
+	app.use(morgan('common'))
+	app.use(express.static(path.resolve(__dirname, 'client/build')))
+}
 
 /* Mongoose connection to mLab */
 mongoose.Promise = global.Promise;
 mongoose
-	.connect(
-		keys.mLabURI,
-		{ useNewUrlParser: true }
-	)
+	.connect(process.env.DB_HOST)
 	.then(() => console.log('Connected to mLab DB'))
 	.catch(err => console.log('Error connecting to mLab', err));
 
 /* Express Middleware */
 app.use(cors()); // Used for testing. Client is on another port to server.
-app.use(morgan('tiny')); // Used for testing. Logs requests to the console.
+app.use(morgan('dev')); // Used for testing. Logs requests to the console.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
@@ -47,6 +53,11 @@ app.use('/', indexRoutes);
 app.use('/founders', founderRoutes);
 app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
+if(!dev) {
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client/build', 'index.html'))
+	})
+}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
