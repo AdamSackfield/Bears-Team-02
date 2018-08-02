@@ -28,7 +28,7 @@ if(!dev) {
 /* Mongoose connection to mLab */
 mongoose.Promise = global.Promise;
 mongoose
-.connect(process.env.MONGODB_URI)
+.connect("mongodb://admin-as:Req-Voa-GW8-upc@ds147451.mlab.com:47451/founder-connect")
 .then(() => console.log('Connected to mLab DB'))
 .catch(err => console.log('Error connecting to mLab', err));
 
