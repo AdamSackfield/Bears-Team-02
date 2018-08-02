@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const chalk = require('chalk');
 const keys = require('./config/keys');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
