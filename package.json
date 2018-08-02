@@ -8,11 +8,7 @@
     "npm": "6.1.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "server": "nodemon index.js",
-    "client": "npm run start --prefix client",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "test": "nodemon --exec 'mocha --recursive'"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
