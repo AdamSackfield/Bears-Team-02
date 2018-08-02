@@ -43,9 +43,6 @@ class Connect extends Component {
       return <Loader />;
     }
 
-    if (pendingConnections === null) {
-      this.props.getPendingConnections();
-    }
     return (
       <ConnectComp
         getUsers={getUsers}
