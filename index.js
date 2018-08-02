@@ -26,13 +26,15 @@ if(!dev) {
 /* Mongoose connection to mLab */
 mongoose.Promise = global.Promise;
 mongoose
-	.connect(process.env.DB_HOST)
-	.then(() => console.log('Connected to mLab DB'))
-	.catch(err => console.log('Error connecting to mLab', err));
+.connect(process.env.DB_HOST)
+.then(() => console.log('Connected to mLab DB'))
+.catch(err => console.log('Error connecting to mLab', err));
 
 /* Express Middleware */
-app.use(cors()); // Used for testing. Client is on another port to server.
-app.use(morgan('dev')); // Used for testing. Logs requests to the console.
+if(dev) {
+	app.use(cors()); // Used for testing. Client is on another port to server.
+	app.use(morgan('dev')); // Used for testing. Logs requests to the console.
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
