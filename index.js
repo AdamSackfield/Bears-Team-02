@@ -1,6 +1,3 @@
-if(dev) {
-	require('dotenv').config();
-}
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -19,6 +16,9 @@ const authRoutes = require('./routes/authRoutes');
 const app = express();
 const dev = app.get('env') !== 'production';
 
+if(dev) {
+	require('dotenv').config();
+}
 if(!dev) {
 	app.disable('x-powered-by')
 	app.use(morgan('common'))
