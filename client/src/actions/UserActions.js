@@ -8,7 +8,7 @@ const ROOT_URL = 'http://localhost:5000';
 export function signUp({ firstName, lastName, username, email, password }) {
 	return dispatch => {
 		axios
-			.post(`${ROOT_URL}/auth/register`, { firstName, lastName, username, email, password })
+			.post(`/auth/register`, { firstName, lastName, username, email, password })
 			.then(response => {
 				if (response.status === 200) {
 					localStorage.setItem('token', response.data.token);
@@ -31,7 +31,7 @@ export function signUp({ firstName, lastName, username, email, password }) {
 export function login({ username, password }) {
 	return dispatch => {
 		axios
-			.post(`${ROOT_URL}/auth/login`, { username, password })
+			.post(`/auth/login`, { username, password })
 			.then(response => {
 				if (response.status === 200) {
 					localStorage.setItem('token', response.data.token);
@@ -51,7 +51,7 @@ export function login({ username, password }) {
 export function dashboard() {
 	return dispatch => {
 		let token = localStorage.getItem('token');
-		axios.get(`${ROOT_URL}/auth/dashboard`, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
+		axios.get(`/auth/dashboard`, { headers: { Authorization: `Bearer ${token}` } }).then(response => {
 			dispatch({ type: USER_DASHBOARD, payload: response.data });
 		}).catch(error => {
 			dispatch({ type: USER_DASHBOARD, payload: 'Failed to load Dashboard'})
@@ -70,7 +70,7 @@ export function logout() {
 export function getUsers(filterParams) {
 	return dispatch => {
 		let token = localStorage.getItem('token');
-		axios.get(`${ROOT_URL}/founders`, { params:{ isTechnical : filterParams || "all" }, headers: { Authorization: `Bearer ${token}` } }).then(response => {
+		axios.get(`/founders`, { params:{ isTechnical : filterParams || "all" }, headers: { Authorization: `Bearer ${token}` } }).then(response => {
 			dispatch({ type: GET_USERS, payload: response.data })
 		}).catch(error => {
 				dispatch({ type: FLASH_MESSAGE, payload: 'Failed to load users'})
@@ -81,7 +81,7 @@ export function getUsers(filterParams) {
 export function toggleTechnical() {
 	return dispatch => {
 		let token = localStorage.getItem('token');
-		axios.get(`${ROOT_URL}/auth/istechnical`, { headers: { Authorization: `Bearer ${token}`} }).then(response => {
+		axios.get(`/auth/istechnical`, { headers: { Authorization: `Bearer ${token}`} }).then(response => {
 			dispatch({ type: FLASH_MESSAGE, payload: 'Successfully updated'})
 			dispatch({ type: USER_DASHBOARD, payload: response.data });
 		}).catch(error => {
@@ -93,7 +93,7 @@ export function toggleTechnical() {
 export function requestConnection(requestedUser) {
 	return dispatch => {
 		let token = localStorage.getItem('token');
-		axios.post(`${ROOT_URL}/auth/connectionrequest`, { requestedUser }, { headers: { Authorization: `Bearer ${token}`}}).then(response => {
+		axios.post(`/auth/connectionrequest`, { requestedUser }, { headers: { Authorization: `Bearer ${token}`}}).then(response => {
 			dispatch({ type: FLASH_MESSAGE, payload: 'Connected request sent' })
 			history.push('/connect')
 		}).catch(error => {
@@ -105,7 +105,7 @@ export function requestConnection(requestedUser) {
 export function getPendingConnections() {
 	return dispatch => {
 		let token = localStorage.getItem('token');
-		axios.get(`${ROOT_URL}/auth/pendingconnections`, { headers: { Authorization: `Bearer ${token}`}}).then(response => {
+		axios.get(`/auth/pendingconnections`, { headers: { Authorization: `Bearer ${token}`}}).then(response => {
 			dispatch({ type: GET_CONNECTIONS, payload: response.data })
 		}).catch(error => {
 			dispatch({ type: FLASH_MESSAGE, payload: 'Request failed. Please try again.'})			
@@ -116,7 +116,7 @@ export function getPendingConnections() {
 export function pendingConnectionResponse({ connectionRequest, action }) {
 	return dispatch => {
 		let token = localStorage.getItem('token');
-		axios.post(`${ROOT_URL}/auth/pendingconnectionresponse`, { connectionRequest, action }, { headers: { Authorization: `Bearer ${token}`}}).then(response => {
+		axios.post(`/auth/pendingconnectionresponse`, { connectionRequest, action }, { headers: { Authorization: `Bearer ${token}`}}).then(response => {
 			dispatch({ type: FLASH_MESSAGE, payload: response.data.message  })
 			history.push('/dashboard')
 		}).catch(error => {
