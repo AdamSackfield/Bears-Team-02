@@ -1,4 +1,6 @@
-require('dotenv').config();
+if(dev) {
+	require('dotenv').config();
+}
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -26,7 +28,7 @@ if(!dev) {
 /* Mongoose connection to mLab */
 mongoose.Promise = global.Promise;
 mongoose
-.connect(process.env.DB_HOST)
+.connect(process.env.MONGODB_URI)
 .then(() => console.log('Connected to mLab DB'))
 .catch(err => console.log('Error connecting to mLab', err));
 
